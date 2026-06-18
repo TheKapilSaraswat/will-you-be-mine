@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>will you be mine? 🥺</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background 1s ease;
+      position: relative;
+    }
+
+    body.spoopy {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    }
+    body.angy {
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+    }
+    body.space {
+      background: linear-gradient(135deg, #0d0d2b, #1a1a4e, #2d1b69);
+    }
+
+    .hearts-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.5s;
+    }
+    .hearts-bg span {
+      position: absolute;
+      animation: floatHeart 8s linear infinite;
+      opacity: 0.25;
+    }
+    @keyframes floatHeart {
+      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0.3; }
+      50% { opacity: 0.6; }
+      100% { transform: translateY(-10vh) rotate(720deg) scale(1.2); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 32px;
+      padding: 32px 40px;
+      max-width: 580px;
+      width: 94%;
+      text-align: center;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.2);
+      border: 3px solid #ff8fa3;
+      animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      max-height: 98vh;
+      overflow-y: auto;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.3) rotate(-5deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    .card.shake {
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-12px) rotate(-1deg); }
+      40% { transform: translateX(12px) rotate(1deg); }
+      60% { transform: translateX(-8px); }
+      80% { transform: translateX(8px); }
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .status-dot.active {
+      background: #d6336c;
+      transform: scale(1.3);
+    }
+    .status-dot.used {
+      background: #ff8fa3;
+    }
+
+    .shy-cat {
+      font-size: 40px;
+      margin-bottom: 2px;
+      transition: transform 0.3s;
+    }
+    .shy-cat.spin {
+      animation: spin 0.6s ease;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    h1 {
+      font-size: 24px;
+      color: #d6336c;
+      margin-bottom: 2px;
+    }
+    h1 .heart-pulse {
+      display: inline-block;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+      min-height: 20px;
+    }
+
+    .desperate-meter {
+      margin: 4px 0 10px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    .desperate-meter .meter-fill {
+      display: inline-block;
+      width: 0%;
+      height: 5px;
+      background: linear-gradient(90deg, #ff6b8a, #d6336c);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+
+    .meme-container {
+      position: relative;
+      margin: 8px auto 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 120px;
+    }
+
+    .meme-image {
+      border-radius: 14px;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      transition: all 0.4s;
+    }
+
+    .meme-caption {
+      margin-top: 6px;
+      font-size: 16px;
+      color: #333;
+      min-height: 24px;
+      transition: all 0.3s;
+    }
+    .meme-caption .highlight {
+      background: #ffe066;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      min-height: 70px;
+      margin-top: 12px;
+      flex-wrap: nowrap;
+    }
+
+    .btn {
+      padding: 12px 36px;
+      border: none;
+      border-radius: 60px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.3s;
+      white-space: nowrap;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ff6b8a, #d6336c);
+      color: #fff;
+      box-shadow: 0 6px 28px rgba(214, 51, 108, 0.4);
+      z-index: 5;
+      flex-shrink: 0;
+    }
+    .btn-yes:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 40px rgba(214, 51, 108, 0.6);
+    }
+    .btn-yes:active { transform: scale(0.95); }
+
+    .btn-no {
+      background: #e0e0e0;
+      color: #666;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .btn-no.ghost {
+      opacity: 0.2;
+      pointer-events: auto;
+    }
+    .btn-no.ghost:hover {
+      opacity: 0.5;
+    }
+
+    /* When no button is in absolute/fixed mode, override flex */
+    .btn-no.fled {
+      flex-shrink: 0;
+    }
+
+    .no-clone {
+      position: absolute;
+      padding: 10px 28px;
+      border: none;
+      border-radius: 60px;
+      font-size: 15px;
+      font-weight: 700;
+      background: #e0e0e0;
+      color: #666;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      cursor: default;
+      user-select: none;
+      animation: appearPop 0.3s forwards;
+      transition: all 0.12s ease;
+      z-index: 8;
+      white-space: nowrap;
+    }
+    @keyframes appearPop {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.15); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .no-clone:hover {
+      background: #f0f0f0;
+    }
+
+    .response-area {
+      margin-top: 12px;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .response-meme {
+      font-size: 60px;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      line-height: 1.2;
+    }
+    .response-text {
+      font-size: 20px;
+      color: #d6336c;
+      font-weight: 700;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .response-sub {
+      font-size: 14px;
+      color: #999;
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .hidden { display: none !important; }
+
+    .confetti-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 10px; height: 10px;
+      opacity: 0;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .taunt {
+      position: fixed;
+      pointer-events: none;
+      font-size: 26px;
+      animation: tauntFloat 1.5s ease forwards;
+      z-index: 20;
+    }
+    @keyframes tauntFloat {
+      0% { opacity: 1; transform: translateY(0) scale(0.5); }
+      100% { opacity: 0; transform: translateY(-70px) scale(1.2); }
+    }
+
+    .boss-phase {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+    .boss-content {
+      background: #fff;
+      border-radius: 32px;
+      padding: 36px;
+      max-width: 460px;
+      width: 90%;
+      text-align: center;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .boss-content h2 { font-size: 24px; color: #d6336c; margin-bottom: 10px; }
+    .boss-content p { font-size: 16px; color: #555; margin-bottom: 16px; }
+    .boss-content .btn { font-size: 20px; padding: 14px 44px; }
+
+    /* ======================== KID STICKER BOARD ======================== */
+    .sticker-board {
+      margin: 6px auto 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .sticker-card {
+      background: #fff2f5;
+      border-radius: 20px;
+      padding: 10px 18px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 2.5px dashed #ffb3c6;
+      transition: all 0.5s ease;
+      max-width: 100%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      position: relative;
+    }
+
+    .sticker-card .sticker-emoji-wrap {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .sticker-card .sticker-face {
+      font-size: 38px;
+      line-height: 1;
+      transition: transform 0.4s ease;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    .sticker-card .sticker-face.bounce {
+      animation: stickerBounce 0.5s ease;
+    }
+    @keyframes stickerBounce {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(1.3) rotate(-10deg); }
+      60%  { transform: scale(1.1) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .sticker-card .sticker-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .sticker-card .sticker-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #d6336c;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+
+    .sticker-card .sticker-sub {
+      font-size: 10px;
+      color: #aaa;
+      margin-top: 1px;
+    }
+
+    .sticker-card .sticker-rage-bar {
+      width: 100%;
+      height: 4px;
+      background: #f0d0d8;
+      border-radius: 2px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+    .sticker-card .sticker-rage-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffb3c6, #ff6b8a, #d6336c, #cc0000);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* Sticker corner accent */
+    .sticker-card::before {
+      content: '📌';
+      position: absolute;
+      top: -8px;
+      left: -6px;
+      font-size: 14px;
+      transform: rotate(-15deg);
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+    }
+
+    .rage-count {
+      font-size: 11px;
+      color: #ccc;
+      margin-top: 6px;
+    }
+
+    .flash-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+      transition: opacity 0.1s;
+    }
+
+    /* Sad tear drops */
+    .tear {
+      position: fixed;
+      pointer-events: none;
+      font-size: 20px;
+      animation: tearFall 1.2s ease-in forwards;
+      z-index: 15;
+    }
+    @keyframes tearFall {
+      0% { opacity: 1; transform: translateY(0) scale(0.5) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(120px) scale(1) rotate(20deg); }
+    }
+
+    /* ======================== RESPONSIVE ======================== */
+
+    /* Small phones */
+    @media (max-width: 420px) {
+      .card {
+        padding: 16px 12px;
+        border-radius: 24px;
+        width: 96%;
+        max-height: 96vh;
+      }
+      h1 { font-size: 17px; }
+      .subtitle { font-size: 11px; }
+      .shy-cat { font-size: 32px; }
+      .btn {
+        padding: 10px 18px;
+        font-size: 14px;
+      }
+      .btn-yes { padding: 10px 28px; }
+      .meme-image { width: 100px; height: 100px; }
+      .meme-caption { font-size: 13px; }
+      .buttons {
+        gap: 12px;
+        min-height: 50px;
+        flex-wrap: nowrap;
+      }
+      .no-clone {
+        padding: 6px 14px;
+        font-size: 12px;
+      }
+      .status-dot { width: 7px; height: 7px; }
+      .desperate-meter { font-size: 10px; }
+      .desperate-meter .meter-fill { height: 4px; }
+      .sticker-card {
+        padding: 6px 10px 8px;
+        gap: 8px;
+        border-radius: 14px;
+      }
+      .sticker-card .sticker-emoji-wrap {
+        width: 36px;
+        height: 36px;
+      }
+      .sticker-card .sticker-face { font-size: 26px; }
+      .sticker-card .sticker-label { font-size: 11px; }
+      .sticker-card .sticker-sub { font-size: 9px; }
+      .sticker-card .sticker-rage-bar { height: 3px; }
+      .response-meme { font-size: 40px; }
+      .response-text { font-size: 16px; }
+      .rage-count { font-size: 10px; }
+      .boss-content { padding: 24px 16px; }
+      .boss-content h2 { font-size: 18px; }
+      .boss-content p { font-size: 14px; }
+      .boss-content .btn { font-size: 16px; padding: 12px 28px; }
+      .taunt { font-size: 20px; }
+      .tear { font-size: 16px; }
+    }
+
+    /* Phones 420-600px */
+    @media (min-width: 421px) and (max-width: 600px) {
+      .card {
+        padding: 22px 20px;
+        max-height: 97vh;
+      }
+      h1 { font-size: 20px; }
+      .btn {
+        padding: 11px 26px;
+        font-size: 16px;
+      }
+      .meme-image { width: 130px; height: 130px; }
+      .buttons { gap: 14px; }
+      .sticker-card { padding: 8px 14px 10px; gap: 10px; }
+      .sticker-card .sticker-emoji-wrap { width: 42px; height: 42px; }
+      .sticker-card .sticker-face { font-size: 30px; }
+      .sticker-card .sticker-label { font-size: 12px; }
+      .no-clone { padding: 8px 20px; font-size: 14px; }
+    }
+
+    /* Landscape phones */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .card {
+        padding: 10px 20px;
+        max-height: 94vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 2px;
+      }
+      .shy-cat { font-size: 24px; margin-bottom: 0; }
+      h1 { font-size: 16px; margin-bottom: 0; }
+      .subtitle { font-size: 10px; margin-bottom: 4px; }
+      .status-bar { margin-bottom: 2px; }
+      .status-dot { width: 6px; height: 6px; }
+      .desperate-meter { margin: 2px 0 4px; font-size: 9px; }
+      .desperate-meter .meter-fill { height: 3px; }
+      .meme-container { min-height: 70px; margin: 2px auto 4px; }
+      .meme-image { width: 70px; height: 70px; }
+      .meme-caption { font-size: 11px; margin-top: 2px; min-height: 16px; }
+      .sticker-board { margin: 2px auto 4px; }
+      .sticker-card { padding: 4px 8px 6px; gap: 6px; border-radius: 10px; }
+      .sticker-card .sticker-emoji-wrap { width: 28px; height: 28px; }
+      .sticker-card .sticker-face { font-size: 20px; }
+      .sticker-card .sticker-label { font-size: 10px; }
+      .sticker-card .sticker-sub { font-size: 8px; }
+      .sticker-card .sticker-rage-bar { height: 2px; margin-top: 2px; }
+      .sticker-card::before { font-size: 10px; top: -6px; left: -4px; }
+      .buttons { min-height: 40px; margin-top: 4px; gap: 10px; }
+      .btn { padding: 6px 16px; font-size: 12px; }
+      .btn-yes { padding: 6px 20px; }
+      .rage-count { font-size: 8px; margin-top: 2px; }
+      .response-area { min-height: 30px; margin-top: 4px; }
+      .response-meme { font-size: 28px; }
+      .response-text { font-size: 13px; }
+      .card.shake { animation: none; }
+      .no-clone { padding: 5px 12px; font-size: 10px; }
+    }
+
+    /* Tablets */
+    @media (min-width: 601px) and (max-width: 900px) {
+      .card { padding: 28px 32px; }
+      h1 { font-size: 22px; }
+      .meme-image { width: 140px; height: 140px; }
+      .sticker-card .sticker-emoji-wrap { width: 46px; height: 46px; }
+      .sticker-card .sticker-face { font-size: 34px; }
+    }
+
+    /* Large screens */
+    @media (min-width: 1400px) {
+      .card { max-width: 640px; padding: 44px 56px; }
+      h1 { font-size: 30px; }
+      .btn { padding: 16px 48px; font-size: 22px; }
+      .meme-image { width: 180px; height: 180px; }
+      .meme-caption { font-size: 20px; }
+      .sticker-card { padding: 12px 24px 16px; gap: 18px; }
+      .sticker-card .sticker-emoji-wrap { width: 60px; height: 60px; }
+      .sticker-card .sticker-face { font-size: 44px; }
+      .sticker-card .sticker-label { font-size: 16px; }
+      .sticker-card .sticker-sub { font-size: 12px; }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .card { background: rgba(40, 20, 30, 0.97); border-color: #6b2a3a; }
+      h1 { color: #ff8fa3; }
+      .subtitle, .desperate-meter, .rage-count { color: #997; }
+      .meme-caption { color: #ccc; }
+      .meme-caption .highlight { background: #553322; color: #ffd; }
+      .sticker-card { background: #3a2028; border-color: #6b2a3a; }
+      .sticker-card .sticker-label { color: #ff8fa3; }
+      .sticker-card .sticker-sub { color: #887; }
+      .sticker-card .sticker-rage-bar { background: #4a2832; }
+      .btn-no { background: #444; color: #aaa; }
+      .no-clone { background: #444; color: #aaa; }
+      .boss-content { background: #2a1520; }
+      .boss-content h2 { color: #ff8fa3; }
+      .boss-content p { color: #bbb; }
+      .taunt, .tear { filter: brightness(1.2); }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .card.shake { animation: none; }
+      .sticker-card .sticker-face.bounce { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="flash-overlay" id="flashOverlay"></div>
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="card" id="card">
+  <div class="status-bar" id="statusBar">
+    <div class="status-dot active"></div>
+    <div class="status-dot"></div><div class="status-dot"></div><div class="status-dot"></div>
+    <div class="status-dot"></div><div class="status-dot"></div><div class="status-dot"></div>
+    <div class="status-dot"></div><div class="status-dot"></div><div class="status-dot"></div>
+    <div class="status-dot"></div><div class="status-dot"></div><div class="status-dot"></div>
+    <div class="status-dot"></div><div class="status-dot"></div>
+  </div>
+
+  <div class="shy-cat" id="shyCat">🥺</div>
+
+  <h1>will you be <span class="heart-pulse" id="heartEmoji">💖</span> mine?</h1>
+  <p class="subtitle" id="subtitle">(pls say yes or i'll cry)</p>
+
+  <div class="desperate-meter" id="desperateMeter">
+    desperation level:
+    <span class="meter-fill" id="meterFill" style="width:0%"></span>
+    <span id="meterLabel">0%</span>
+  </div>
+
+  <div class="sticker-board" id="stickerBoard">
+    <div class="sticker-card" id="stickerCard">
+      <div class="sticker-emoji-wrap">
+        <span class="sticker-face" id="stickerFace">👶✨</span>
+      </div>
+      <div class="sticker-info">
+        <span class="sticker-label" id="stickerLabel">baby angel</span>
+        <span class="sticker-sub" id="stickerSub">level 1 · still pure</span>
+        <div class="sticker-rage-bar">
+          <div class="sticker-rage-fill" id="stickerRageFill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="meme-container" id="memeContainer">
+    <img id="memeImage" class="meme-image"
+      src="https://media.tenor.com/qW9C2E6dY5AAAAAi/cat-cat-stare.gif" alt="meme">
+  </div>
+  <div class="meme-caption" id="memeCaption">me rn: <span class="highlight">🥹👉👈</span> waiting...</div>
+
+  <div class="buttons" id="buttonsContainer">
+    <button class="btn btn-yes" id="yesBtn" onclick="sayYes()">yes 💕</button>
+    <button class="btn btn-no" id="noBtn">no 😤</button>
+  </div>
+
+  <div class="rage-count" id="rageCount">attempts: 0</div>
+
+  <div class="response-area" id="responseArea">
+    <div class="response-meme hidden" id="responseMeme"></div>
+    <div class="response-text hidden" id="responseText"></div>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+  // ======================== CONFIG ========================
+  const MEMES = [
+    { img: 'https://media.tenor.com/qW9C2E6dY5AAAAAi/cat-cat-stare.gif', cap: 'me rn: <span class="highlight">🥹👉👈</span> waiting...' },
+    { img: 'https://media.tenor.com/loGpnNlrxGAAAAAi/cat-cute.gif', cap: 'pls... <span class="highlight">i beg</span>' },
+    { img: 'https://media.tenor.com/CTR3t6wAyP4AAAAd/cat-cats.gif', cap: 'no? okay... ill just <span class="highlight">cry</span> then' },
+    { img: 'https://media.tenor.com/-AidIId_q7kAAAAd/sad-cat.gif', cap: 'are you <span class="highlight">sure???</span> 🥺' },
+    { img: 'https://media.tenor.com/4T7JFBhhfBYAAAAd/cat-cat-rain.gif', cap: 'its okay... <span class="highlight">i understand</span> *sobs*' },
+    { img: 'https://media.tenor.com/MYy0dlGV0R0AAAAd/cat-what.gif', cap: '<span class="highlight">bruh</span> u serious rn' },
+    { img: 'https://media.tenor.com/lVxW0dm71q4AAAAd/anime-anime-girl.gif', cap: '<span class="highlight">>:C</span> stop playing with my heart' },
+    { img: 'https://media.tenor.com/ouhr3-lSW0IAAAAd/slap-cat.gif', cap: 'NO U <span class="highlight">slap</span> — wait that was mean' },
+    { img: 'https://i.imgur.com/5NyGmJb.gif', cap: 'im going <span class="highlight">feral</span> actually' },
+    { img: 'https://media.tenor.com/4-fD6pZY2BcAAAAd/shirt-cat-beg.gif', cap: 'LAST CHANCE <span class="highlight">😭😭😭</span>' },
+    { img: 'https://media.tenor.com/Cb4FOCgG3XgAAAAd/cat-kiss.gif', cap: 'i will <span class="highlight">kiss</span> you through the screen' },
+    { img: 'https://media.tenor.com/64CgFyPKJoQAAAAd/cat-sad.gif', cap: 'my heart can only take so much <span class="highlight">🥺</span>' },
+    { img: 'https://media.tenor.com/o7S8mPpnukIAAAAd/cat-crying.gif', cap: '<span class="highlight">*crying noises*</span> why u do dis' },
+    { img: 'https://media.tenor.com/V7OVIhBxflEAAAAd/cat-cat-meme.gif', cap: 'the council of cats has <span class="highlight">judged</span> you' },
+    { img: 'https://media.tenor.com/1N9o9JQ0HaoAAAAd/cat-angy.gif', cap: 'ok now im just <span class="highlight">angy</span> 😠' },
+  ];
+
+  const TAUNTS = ['😏', '🤭', '😂', '🫵', '😜', '💅', '✨', 'no.', 'nope', 'never',
+    'can\'t catch me', 'too slow', 'lol', 'try again', '👻', '💨', 'no ty', 'nah', 'pass',
+    '😘', 'missed me', 'almost!', 'nope!', 'again?', 'haha'];
+
+  const DESPERATE_LINES = [
+    '(pls say yes or i\'ll cry)',
+    '(okay but like... really tho)',
+    '(are you SURE you want to do this)',
+    '(this is your FINAL answer???)',
+    '(i\'m not crying you\'re crying)',
+    '(the button is scared of you btw)',
+    '(why do you keep trying lol)',
+    '(you know you want to say yes)',
+    '(the universe wants you to say yes)',
+    '(okay thats it im calling your mom)',
+    '(this is getting embarrassing for both of us)',
+    '(i have infinite patience... and infinite no buttons)',
+    '(plot twist: the no button wins by default)',
+    '(we could do this all day)',
+    '(i literally made the no button sentient)',
+    '(the button has a family please stop)',
+    '(you monster)',
+    '(i respect the commitment tbh)',
+    '(but also please just say yes 😭)',
+  ];
+
+  const BOSS_PHASES = [
+    { title: '👑 FINAL BOSS: THE NO BUTTON HAS EVOLVED', desc: 'It\'s too powerful now. It has achieved sentience. Your only hope is to surrender to love.', btn: 'surrender to love 💕' },
+    { title: '🤖 NO-BOT 3000', desc: 'You have awoken the ancient one. The sacred texts foretold this moment. Only the chosen one may press yes.', btn: 'I am the chosen one ✨' },
+    { title: '⚔️ THE NO KING 👑', desc: 'The No King rules these lands with an iron fist. Many have tried. All have failed. You are but a traveler seeking love.', btn: 'slay the No King 🗡️' },
+  ];
+
+  // ======================== CUTE ANGRY KID STICKERS ========================
+  const KID_STICKERS = [
+    { face: '👶✨', label: 'baby angel', sub: 'still pure', color: '#fff2f5' },
+    { face: '👼🥰', label: 'little angel', sub: 'too cute', color: '#fff0f5' },
+    { face: '👦💕', label: 'sweet boy', sub: 'full of love', color: '#ffeef5' },
+    { face: '👧🥺', label: 'shy girl', sub: 'pouty wip', color: '#ffe8f0' },
+    { face: '🧒😊', label: 'happy kid', sub: 'still smiling', color: '#ffe2ec' },
+    { face: '👦🙃', label: 'getting sassy', sub: 'sideeye.exe', color: '#ffdce8' },
+    { face: '👧😒', label: 'major side eye', sub: 'judging you', color: '#ffd4e2' },
+    { face: '🧒😤', label: 'huffing', sub: 'angy noises', color: '#ffc8da' },
+    { face: '👦😠', label: 'little angy', sub: 'tiny rage', color: '#ffbcd2' },
+    { face: '👧😡', label: 'mad girl', sub: 'seeing red', color: '#ffb0c8' },
+    { face: '🧒🤬', label: 'seething', sub: 'censor beeps', color: '#ffa0bc' },
+    { face: '👦👹', label: 'demon mode', sub: 'gone feral', color: '#ff90b0' },
+    { face: '👧💢', label: 'exploding', sub: 'rage quits', color: '#ff80a0' },
+    { face: '🧒🔥', label: 'on fire', sub: 'literally', color: '#ff7090' },
+    { face: '👦💀', label: 'dead inside', sub: 'soul left body', color: '#ff6078' },
+    { face: '👧☠️', label: 'final form', sub: 'no return', color: '#ff5060' },
+    { face: '🧒🌀', label: 'super saiyan', sub: 'power level over 9000', color: '#ff4048' },
+    { face: '👽💥', label: 'alien rage', sub: 'not even human anymore', color: '#ff3030' },
+  ];
+
+  function updateSticker(attempt) {
+    const idx = Math.min(attempt, KID_STICKERS.length - 1);
+    const s = KID_STICKERS[idx];
+    stickerFace.textContent = s.face;
+    stickerLabel.textContent = s.label;
+    stickerSub.textContent = `level ${idx + 1} · ${s.sub}`;
+    stickerCard.style.background = s.color;
+
+    // Rage fill as proportion of max (18 levels)
+    const pct = Math.min(100, Math.round((attempt / (KID_STICKERS.length - 1)) * 100));
+    stickerRageFill.style.width = pct + '%';
+
+    // Bounce anim
+    stickerFace.classList.remove('bounce');
+    void stickerFace.offsetWidth;
+    stickerFace.classList.add('bounce');
+
+    // Border color intensifies
+    const intensity = Math.min(200, attempt * 10);
+    stickerCard.style.borderColor = attempt < 5 ? '#ffb3c6' :
+      `rgb(255, ${Math.max(80, 180 - intensity)}, ${Math.max(80, 180 - intensity)})`;
+  }
+
+  // ======================== STATE ========================
+  let attempts = 0;
+  let memeIndex = 0;
+  let noClones = [];
+  let bossActive = false;
+  let runawayMode = false;
+  let yesClicked = false;
+  let noBtnAttachedToBody = false;
+
+  // ======================== DOM REFS ========================
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const container = document.getElementById('buttonsContainer');
+  const card = document.getElementById('card');
+  const memeImg = document.getElementById('memeImage');
+  const memeCap = document.getElementById('memeCaption');
+  const subtitle = document.getElementById('subtitle');
+  const meterFill = document.getElementById('meterFill');
+  const meterLabel = document.getElementById('meterLabel');
+  const rageCount = document.getElementById('rageCount');
+  const shyCat = document.getElementById('shyCat');
+  const dots = document.querySelectorAll('.status-dot');
+  const heartEmoji = document.getElementById('heartEmoji');
+  const flashOverlay = document.getElementById('flashOverlay');
+  const stickerFace = document.getElementById('stickerFace');
+  const stickerLabel = document.getElementById('stickerLabel');
+  const stickerSub = document.getElementById('stickerSub');
+  const stickerCard = document.getElementById('stickerCard');
+  const stickerRageFill = document.getElementById('stickerRageFill');
+
+  // ======================== INIT HEARTS ========================
+  (function initHearts() {
+    const emojis = ['💖', '💗', '💓', '💕', '💘', '💝', '🩷', '❤️', '🥰', '😍'];
+    const c = document.getElementById('heartsBg');
+    for (let i = 0; i < 30; i++) {
+      const s = document.createElement('span');
+      s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      s.style.left = Math.random() * 100 + '%';
+      s.style.fontSize = (12 + Math.random() * 28) + 'px';
+      s.style.animationDuration = (5 + Math.random() * 8) + 's';
+      s.style.animationDelay = Math.random() * 6 + 's';
+      c.appendChild(s);
+    }
+  })();
+
+  // ======================== CONFETTI ========================
+  function fireConfetti(count = 60) {
+    const c = document.getElementById('confettiContainer');
+    const colors = ['#ff6b8a', '#d6336c', '#ffe066', '#74c69d', '#48bfe3', '#ff9f1c', '#9d4edd', '#ff6b35', '#00f5d4'];
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.width = (4 + Math.random() * 8) + 'px';
+      p.style.height = (4 + Math.random() * 8) + 'px';
+      p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      p.style.animationDuration = (2 + Math.random() * 3) + 's';
+      p.style.animationDelay = Math.random() * 0.8 + 's';
+      c.appendChild(p);
+    }
+    setTimeout(() => { c.innerHTML = ''; }, 5000);
+  }
+
+  // ======================== SOUNDS ========================
+  function playWinSound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const notes = [523.25, 659.25, 783.99, 1046.5];
+      notes.forEach((freq, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+        g.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.12);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.3);
+        o.start(ctx.currentTime + i * 0.12);
+        o.stop(ctx.currentTime + i * 0.12 + 0.3);
+      });
+    } catch(e) {}
+  }
+
+  // Cute crying / whimper sound when hovering no
+  function playCrySound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const now = ctx.currentTime;
+
+      // Layer 1: descending whine (cute cry)
+      const o1 = ctx.createOscillator();
+      const g1 = ctx.createGain();
+      o1.connect(g1); g1.connect(ctx.destination);
+      o1.type = 'sine';
+      o1.frequency.setValueAtTime(800, now);
+      o1.frequency.exponentialRampToValueAtTime(400, now + 0.25);
+      g1.gain.setValueAtTime(0.08, now);
+      g1.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      o1.start(now);
+      o1.stop(now + 0.3);
+
+      // Layer 2: wobble (cute tremble)
+      const o2 = ctx.createOscillator();
+      const g2 = ctx.createGain();
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      lfo.frequency.setValueAtTime(6, now);
+      lfoGain.gain.setValueAtTime(30, now);
+      lfo.connect(lfoGain);
+      lfoGain.connect(o2.frequency);
+      o2.connect(g2); g2.connect(ctx.destination);
+      o2.type = 'triangle';
+      o2.frequency.setValueAtTime(500, now);
+      g2.gain.setValueAtTime(0.05, now);
+      g2.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      lfo.start(now);
+      o2.start(now);
+      o2.stop(now + 0.35);
+      lfo.stop(now + 0.35);
+
+      // Layer 3: tiny squeak
+      const o3 = ctx.createOscillator();
+      const g3 = ctx.createGain();
+      o3.connect(g3); g3.connect(ctx.destination);
+      o3.type = 'sine';
+      o3.frequency.setValueAtTime(1200, now + 0.05);
+      o3.frequency.exponentialRampToValueAtTime(600, now + 0.2);
+      g3.gain.setValueAtTime(0.04, now + 0.05);
+      g3.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      o3.start(now + 0.05);
+      o3.stop(now + 0.25);
+    } catch(e) {}
+  }
+
+  function playBoop() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(600, ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.06);
+      g.gain.setValueAtTime(0.08, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+      o.start(ctx.currentTime);
+      o.stop(ctx.currentTime + 0.12);
+    } catch(e) {}
+  }
+
+  function playSad() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(350, ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.4);
+      g.gain.setValueAtTime(0.05, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      o.start(ctx.currentTime);
+      o.stop(ctx.currentTime + 0.4);
+    } catch(e) {}
+  }
+
+  // ======================== NO BUTTON BOUNDING ========================
+  function getSafePosition() {
+    // Always stay within viewport with padding
+    const margin = 10;
+    const btnW = Math.min(noBtn.offsetWidth || 100, window.innerWidth - margin * 2);
+    const btnH = Math.min(noBtn.offsetHeight || 44, window.innerHeight - margin * 2);
+
+    const maxX = Math.max(margin, window.innerWidth - btnW - margin);
+    const maxY = Math.max(margin, window.innerHeight - btnH - margin);
+
+    // 70% chance to stay near the card (within a 400x300 box around it)
+    // 30% chance anywhere in viewport
+    let x, y;
+    if (Math.random() < 0.7) {
+      const cr = card.getBoundingClientRect();
+      const areaX = Math.max(margin, cr.left - 60);
+      const areaY = Math.max(margin, cr.top - 40);
+      const areaW = Math.min(cr.width + 120, maxX - areaX + margin);
+      const areaH = Math.min(cr.height + 80, maxY - areaY + margin);
+      x = Math.max(margin, Math.min(maxX, areaX + Math.random() * areaW));
+      y = Math.max(margin, Math.min(maxY, areaY + Math.random() * areaH));
+    } else {
+      x = margin + Math.random() * (maxX - margin);
+      y = margin + Math.random() * (maxY - margin);
+    }
+
+    // AVOID overlapping the Yes button
+    const yesRect = yesBtn.getBoundingClientRect();
+    const yesMargin = 20;
+    // If our position would overlap the Yes button, push it away
+    if (x < yesRect.right + yesMargin && x + btnW > yesRect.left - yesMargin &&
+        y < yesRect.bottom + yesMargin && y + btnH > yesRect.top - yesMargin) {
+      // Push to the right or below depending on which has more space
+      const pushRight = yesRect.right + yesMargin;
+      const pushDown = yesRect.bottom + yesMargin;
+      if (pushRight + btnW + margin <= maxX) {
+        x = pushRight + Math.random() * Math.min(100, maxX - pushRight - btnW - margin);
+      } else if (pushDown + btnH + margin <= maxY) {
+        y = pushDown + Math.random() * Math.min(100, maxY - pushDown - btnH - margin);
+      } else {
+        // Fallback: go to a far corner
+        x = margin;
+        y = margin;
+      }
+    }
+
+    return { x, y };
+  }
+
+  function moveNoBtn(instant = false) {
+    if (yesClicked) return;
+    const pos = getSafePosition();
+
+    // Attach to body with fixed positioning for full viewport freedom
+    if (noBtn.parentNode !== document.body) {
+      document.body.appendChild(noBtn);
+      noBtnAttachedToBody = true;
+    }
+    noBtn.style.position = 'fixed';
+    noBtn.style.transition = instant ? 'none' : 'left 0.08s ease, top 0.08s ease';
+    noBtn.style.left = pos.x + 'px';
+    noBtn.style.top = pos.y + 'px';
+    noBtn.style.zIndex = 10;
+    noBtn.style.transform = ''; // reset any scale from transform
+  }
+
+  function spawnTaunt(x, y) {
+    const t = document.createElement('div');
+    t.className = 'taunt';
+    t.textContent = TAUNTS[Math.floor(Math.random() * TAUNTS.length)];
+    t.style.left = Math.max(10, Math.min(window.innerWidth - 50, x)) + 'px';
+    t.style.top = Math.max(10, Math.min(window.innerHeight - 50, y)) + 'px';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1500);
+  }
+
+  function spawnTear(x, y) {
+    const tear = document.createElement('div');
+    tear.className = 'tear';
+    tear.textContent = '💧';
+    tear.style.left = Math.max(10, Math.min(window.innerWidth - 30, x + (Math.random() - 0.5) * 40)) + 'px';
+    tear.style.top = Math.max(10, Math.min(window.innerHeight - 30, y)) + 'px';
+    document.body.appendChild(tear);
+    setTimeout(() => tear.remove(), 1200);
+  }
+
+  // ======================== MEME PROGRESSION ========================
+  function advanceMeme() {
+    memeIndex = Math.min(memeIndex + 1, MEMES.length - 1);
+    const m = MEMES[memeIndex];
+    memeImg.src = m.img;
+    // Keep size consistent
+    memeImg.style.width = '';
+    memeImg.style.height = '';
+    memeCap.innerHTML = m.cap;
+
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === memeIndex);
+      d.classList.toggle('used', i < memeIndex);
+    });
+  }
+
+  // ======================== DESPERATION METER ========================
+  function updateMeter() {
+    const pct = Math.min(100, Math.round((attempts / 22) * 100));
+    meterFill.style.width = pct + '%';
+    meterLabel.textContent = pct + '%';
+    const lineIdx = Math.min(attempts, DESPERATE_LINES.length - 1);
+    subtitle.textContent = DESPERATE_LINES[lineIdx] || DESPERATE_LINES[0];
+    rageCount.textContent = `attempts: ${attempts}`;
+  }
+
+  // ======================== DODGE / RUNAWAY LOGIC ========================
+  noBtn.addEventListener('mouseenter', (e) => {
+    if (yesClicked) return;
+    playCrySound();
+    attempts++;
+    updateMeter();
+    updateSticker(attempts);
+    moveNoBtn();
+
+    spawnTaunt(e.clientX, e.clientY);
+    spawnTear(e.clientX, e.clientY);
+
+    if (attempts % 2 === 0) {
+      card.classList.add('shake');
+      setTimeout(() => card.classList.remove('shake'), 400);
+    }
+
+    if (attempts % 2 === 0) advanceMeme();
+
+    const hearts = ['💖', '💔', '💗', '💘', '💝', '🩷', '❤️‍🩹', '❤️', '💢'];
+    heartEmoji.textContent = hearts[Math.min(attempts, hearts.length - 1)];
+
+    const catReactions = ['🥺', '😢', '😭', '😤', '🥹', '😠', '🤡', '👹', '💀'];
+    shyCat.textContent = catReactions[Math.min(attempts, catReactions.length - 1)];
+    shyCat.classList.remove('spin');
+    void shyCat.offsetWidth;
+    shyCat.classList.add('spin');
+
+    if (attempts === 6) document.body.classList.add('spoopy');
+    if (attempts === 11) { document.body.classList.remove('spoopy'); document.body.classList.add('angy'); }
+    if (attempts === 16) { document.body.classList.remove('angy'); document.body.classList.add('space'); }
+
+    if (attempts === 8) {
+      flashOverlay.style.opacity = '0.35';
+      setTimeout(() => flashOverlay.style.opacity = '0', 80);
+      setTimeout(() => { flashOverlay.style.opacity = '0.25'; flashOverlay.style.opacity = '0'; }, 160);
+    }
+
+    // Shrink
+    if (attempts > 10 && attempts <= 15) {
+      const scale = Math.max(0.4, 1 - (attempts - 10) * 0.06);
+      noBtn.style.transform = `scale(${scale})`;
+    }
+
+    if (attempts > 15) noBtn.classList.add('ghost');
+
+    if (attempts === 7) triggerBoss(0);
+    if (attempts === 13) triggerBoss(1);
+    if (attempts === 18) triggerBoss(2);
+
+    if (attempts === 9) spawnNoClones(3);
+    if (attempts === 14) spawnNoClones(5);
+    if (attempts === 19) spawnNoClones(8);
+
+    if (attempts >= 16) runawayMode = true;
+
+    if (attempts >= 20) {
+      ultimateDesperation();
+    }
+  });
+
+  // Touch
+  noBtn.addEventListener('touchstart', (e) => {
+    if (yesClicked) return;
+    e.preventDefault();
+    e.stopPropagation();
+    playCrySound();
+    attempts++;
+    updateMeter();
+    updateSticker(attempts);
+    moveNoBtn();
+    spawnTaunt(e.touches[0].clientX, e.touches[0].clientY);
+    spawnTear(e.touches[0].clientX, e.touches[0].clientY);
+    if (attempts % 2 === 0) advanceMeme();
+  });
+
+  // Runaway mode: flee on any mouse move nearby
+  document.addEventListener('mousemove', (e) => {
+    if (yesClicked || !runawayMode) return;
+    const rect = noBtn.getBoundingClientRect();
+    const margin = 120;
+    if (
+      e.clientX > rect.left - margin &&
+      e.clientX < rect.right + margin &&
+      e.clientY > rect.top - margin &&
+      e.clientY < rect.bottom + margin
+    ) {
+      moveNoBtn(true);
+      if (Math.random() < 0.04) spawnTaunt(e.clientX, e.clientY);
+    }
+  });
+
+  // Click trap
+  noBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (yesClicked) return;
+    playSad();
+    attempts++;
+    updateMeter();
+    updateSticker(attempts);
+    moveNoBtn(true);
+    spawnTear(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+    spawnTaunt(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2);
+  });
+
+  // ======================== CLONE NO BUTTONS ========================
+  function spawnNoClones(count) {
+    if (yesClicked) return;
+    noClones.forEach(c => c.remove());
+    noClones = [];
+    for (let i = 0; i < count; i++) {
+      const clone = document.createElement('button');
+      clone.className = 'no-clone';
+      clone.textContent = 'no 😤';
+      clone.style.position = 'fixed';
+      const pos = getCloneSafePosition();
+      clone.style.left = pos.x + 'px';
+      clone.style.top = pos.y + 'px';
+      clone.addEventListener('mouseenter', (e) => {
+        if (yesClicked) return;
+        const p = getCloneSafePosition();
+        clone.style.left = p.x + 'px';
+        clone.style.top = p.y + 'px';
+        attempts++;
+        updateMeter();
+        updateSticker(attempts);
+        playCrySound();
+      });
+      clone.addEventListener('click', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        if (yesClicked) return;
+        const p = getCloneSafePosition();
+        clone.style.left = p.x + 'px';
+        clone.style.top = p.y + 'px';
+        attempts++;
+        updateMeter();
+        updateSticker(attempts);
+        playSad();
+      });
+      document.body.appendChild(clone);
+      noClones.push(clone);
+    }
+  }
+
+  function getCloneSafePosition() {
+    const m = 10;
+    const w = Math.min(120, window.innerWidth - m * 2);
+    const h = Math.min(44, window.innerHeight - m * 2);
+    return {
+      x: m + Math.random() * (window.innerWidth - w - m * 2),
+      y: m + Math.random() * (window.innerHeight - h - m * 2),
+    };
+  }
+
+  // ======================== BOSS PHASES ========================
+  function triggerBoss(index) {
+    if (bossActive || yesClicked) return;
+    bossActive = true;
+    const phase = BOSS_PHASES[index];
+    const overlay = document.createElement('div');
+    overlay.className = 'boss-phase';
+    overlay.innerHTML = `
+      <div class="boss-content">
+        <h2>${phase.title}</h2>
+        <p>${phase.desc}</p>
+        <button class="btn btn-yes" onclick="defeatBoss(this)">${phase.btn}</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    const bossBtn = overlay.querySelector('.btn');
+    bossBtn.addEventListener('mouseenter', () => {
+      if (Math.random() < 0.25) {
+        bossBtn.style.transform = 'translate(' + (Math.random() * 80 - 40) + 'px, ' + (Math.random() * 80 - 40) + 'px)';
+      }
+    });
+  }
+
+  function defeatBoss(btn) {
+    const overlay = btn.closest('.boss-phase');
+    overlay.style.animation = 'fadeIn 0.3s reverse';
+    setTimeout(() => overlay.remove(), 300);
+    bossActive = false;
+    spawnNoClones(2);
+    fireConfetti(25);
+  }
+
+  // ======================== ULTIMATE DESPERATION ========================
+  function ultimateDesperation() {
+    if (yesClicked) return;
+    card.style.background = 'linear-gradient(135deg, #ffb3c6, #ff8fa3)';
+    card.style.borderColor = '#ff0000';
+    card.style.transform = 'rotate(0.5deg)';
+    shyCat.textContent = '😵‍💫';
+    heartEmoji.textContent = '💢';
+    subtitle.textContent = '(okay i give up, you win. are you happy now?)';
+    memeImg.src = 'https://media.tenor.com/Fs3VAPLYZNMAAAAd/cat-cat-look.gif';
+    memeCap.innerHTML = '<span class="highlight">i surrender.</span> the button is free.';
+
+    noBtn.style.transform = 'scale(2.5)';
+    noBtn.style.background = 'gold';
+    noBtn.style.color = '#000';
+    noBtn.textContent = '🏆 YOU WIN 🏆';
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = '50%';
+    noBtn.style.top = '50%';
+    noBtn.style.transform = 'translate(-50%, -50%) scale(2.5)';
+    noBtn.style.zIndex = 200;
+    noBtn.style.padding = '16px 32px';
+    noBtn.style.boxShadow = '0 0 60px rgba(255, 215, 0, 0.8)';
+
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => fireConfetti(80), i * 200);
+    }
+
+    noBtn.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      sayYes();
+    }, { once: true });
+  }
+
+  // ======================== YES ========================
+  function sayYes() {
+    if (yesClicked) return;
+    yesClicked = true;
+
+    noBtn.style.display = 'none';
+    noClones.forEach(c => c.remove());
+    yesBtn.disabled = true;
+    yesBtn.style.opacity = '0.6';
+    yesBtn.style.cursor = 'default';
+
+    const meme = document.getElementById('responseMeme');
+    const text = document.getElementById('responseText');
+    meme.classList.remove('hidden');
+    text.classList.remove('hidden');
+
+    const reactions = [
+      { meme: '🎉🥳🎊💖', text: 'LETS GOOOOOOOO 💖💖💖', sub: 'best decision ever!!!' },
+      { meme: '😭💕🥹', text: 'IM CRYING RN 😭💖', sub: 'you made my whole year' },
+      { meme: '🕺💃🔥', text: 'WE BALLIN 🕺💃', sub: 'this is the start of something beautiful' },
+      { meme: '🥹✨💫', text: 'PINCH ME IM DREAMING ✨', sub: 'thank you thank you thank you' },
+      { meme: '🔥🔥🔥💍', text: 'LETS MAKE IT OFFICIAL 🔥', sub: 'you + me = ❤️' },
+      { meme: '💍🥰💗', text: 'I KNEW IT I KNEW IT I KNEW IT', sub: 'happiest person alive rn' },
+      { meme: '🫶😇💖', text: 'YOU SAID YESSSSS 🫶', sub: 'canon event: unlocked' },
+      { meme: '🌟💞🎀', text: 'THIS IS THE BEST DAY EVER 🌟', sub: 'i will remember this forever' },
+      { meme: '💒👰🤵', text: 'WE\'RE GONNA BE SO HAPPY 💒', sub: 'the start of our forever' },
+    ];
+
+    const pick = reactions[Math.floor(Math.random() * reactions.length)];
+    meme.textContent = pick.meme;
+    text.innerHTML = pick.text + '<br><span class="response-sub">' + pick.sub + '</span>';
+
+    fireConfetti(120);
+    playWinSound();
+    setTimeout(() => fireConfetti(80), 400);
+    setTimeout(() => fireConfetti(60), 800);
+
+    document.body.className = '';
+    document.body.style.background = 'linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%)';
+
+    const hb = document.getElementById('heartsBg');
+    for (let i = 0; i < 20; i++) {
+      const s = document.createElement('span');
+      s.textContent = ['💖', '💗', '💓', '💕', '💘', '💝'][Math.floor(Math.random() * 6)];
+      s.style.left = Math.random() * 100 + '%';
+      s.style.fontSize = (18 + Math.random() * 36) + 'px';
+      s.style.animationDuration = (2 + Math.random() * 4) + 's';
+      s.style.animationDelay = Math.random() * 2 + 's';
+      s.style.opacity = '0.6';
+      hb.appendChild(s);
+    }
+
+    document.getElementById('desperateMeter').style.opacity = '0';
+    document.getElementById('rageCount').style.opacity = '0';
+    document.getElementById('stickerBoard').style.opacity = '0';
+  }
+
+  // Enter key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !yesClicked) {
+      const active = document.activeElement;
+      if (active && active.id === 'noBtn') return;
+      sayYes();
+    }
+  });
+
+  // Handle window resize — reposition no button if needed
+  window.addEventListener('resize', () => {
+    if (!yesClicked && noBtn.style.display !== 'none' && noBtnAttachedToBody) {
+      moveNoBtn(true);
+    }
+  });
+</script>
+</body>
+</html>
